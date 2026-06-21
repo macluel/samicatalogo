@@ -1139,6 +1139,9 @@ function openBackupModal() {
               Restore backup
               <input id="restoreFile" type="file" accept="application/json" style="display:none;" />
             </label>
+            <button id="resetCatalogBtn" class="ghost-btn">
+            Reset catalog
+            </button>
           </div>
           <p class="small-note">The backup includes items, history, settings, and cache. OMDb keys never leave the server function.</p>
         </div>
@@ -1148,6 +1151,7 @@ function openBackupModal() {
   document.querySelector('[data-close-modal]')?.addEventListener('click', closeModal);
   $('downloadBackupBtn')?.addEventListener('click', downloadBackup);
   $('restoreFile')?.addEventListener('change', restoreBackup);
+  $('resetCatalogBtn')?.addEventListener('click', resetCatalog);
 }
 
 function downloadBackup() {
@@ -1192,6 +1196,27 @@ function restoreBackup(event) {
     }
   };
   reader.readAsText(file);
+}
+
+function resetCatalog() {
+  const confirmed = confirm(
+    'This will permanently delete all items, history and cache. Continue?'
+  );
+
+  if (!confirmed) return;
+
+  state.items = [];
+  state.history = [];
+  state.cache = {};
+
+  state.settings.lastViewedItemId = null;
+  state.settings.lastRandomPickId = null;
+
+  saveState(true);
+  render();
+  closeModal();
+
+  toast('Catalog reset');
 }
 
 function omdbCacheKey(params) {
