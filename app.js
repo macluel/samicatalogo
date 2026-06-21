@@ -1195,7 +1195,10 @@ function restoreBackup(event) {
 }
 
 function omdbCacheKey(params) {
-  const ordered = Object.keys(params).sort().map((k) => `${k}=${params[k]}`).join('&');
+  const ordered = Object.keys(params)
+    .sort()
+    .map((k) => `${k}=${params[k]}`)
+    .join('&');
   return ordered;
 }
 
@@ -1203,15 +1206,54 @@ async function omdbRequest(params) {
   const key = omdbCacheKey(params);
   const cached = state.cache[key];
   const ttl = 1000 * 60 * 60 * 24 * 7;
-  if (cached && Date.now() - cached.at < ttl) return cached.data;
+
+  const isValidCachedResponse =
+    cached?.data &&
+    (
+      Array.isArray(cached.data.Search) ||
+      cached.data.Title ||
+      cached.data.imdbID
+    );
+
+  if (
+    cached &&
+    isValidCachedResponse &&
+    Date.now() - cached.at < ttl
+  ) {
+    return cached.data;
+  }
 
   const url = new URL(API_ENDPOINT, location.origin);
-  Object.entries(params).forEach(([k, v]) => { if (v !== undefined && v !== null && `${v}`.length) url.searchParams.set(k, v); });
-  const res = await fetch(url.toString(), { headers: { Accept: 'application/json' } });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+  Object.entries(params).forEach(([k, v]) => {
+    if (v !== undefined && v !== null && `${v}`.length) {
+      url.searchParams.set(k, v);
+    }
+  });
+
+  const res = await fetch(url.toString(), {
+    headers: { Accept: 'application/json' }
+  });
+
+  if (!res.ok) {
+    throw new Error(`HTTP ${res.status}`);
+  }
+
   const data = await res.json();
-  state.cache[key] = { at: Date.now(), data };
-  saveState();
+
+  const isValidOmdbResponse =
+    Array.isArray(data?.Search) ||
+    data?.Title ||
+    data?.imdbID;
+
+  if (isValidOmdbResponse) {
+    state.cache[key] = {
+      at: Date.now(),
+      data
+    };
+    saveState();
+  }
+
   return data;
 }
 
