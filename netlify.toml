@@ -1,0 +1,13 @@
+[build]
+  publish = "."
+  functions = "functions"
+
+[[redirects]]
+  from = "/api/omdb"
+  to = "/.netlify/functions/omdb"
+  status = 200
+
+[[redirects]]
+  from = "/api/omdb/*"
+  to = "/.netlify/functions/omdb"
+  status = 200

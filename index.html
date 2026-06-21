@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0d12" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Couple Catalog" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="assets/icon-192.png" />
+  <link rel="apple-touch-icon" href="assets/icon-192.png" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Couple Catalog</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Private film list</p>
+        <h1>Couple Catalog</h1>
+        <p class="subtle">A clean, shared catalog for movies and series.</p>
+      </div>
+      <div class="topbar-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Toggle theme">◐</button>
+        <button id="exportBtn" class="ghost-btn">Backup</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="summary-grid" id="summaryGrid"></section>
+
+      <section class="panel hero-panel">
+        <div class="hero-copy">
+          <p class="eyebrow">Suggestion of the moment</p>
+          <h2 id="suggestionTitle">Nothing yet</h2>
+          <p id="suggestionText" class="subtle">Add items and let the app suggest the next watch.</p>
+        </div>
+        <div class="hero-actions">
+          <button id="openLastBtn" class="soft-btn">Open last item</button>
+          <button id="drawBtn" class="primary-btn">Random pick</button>
+          <button id="compareBtn" class="ghost-btn">Compare two</button>
+        </div>
+      </section>
+
+      <section class="panel controls-panel">
+        <div class="search-row">
+          <input id="searchInput" type="search" placeholder="Search your catalog..." autocomplete="off" />
+          <button id="addBtn" class="primary-btn">Add</button>
+        </div>
+        <div class="filter-grid">
+          <select id="typeFilter"></select>
+          <select id="labelFilter"></select>
+          <select id="contextFilter"></select>
+          <select id="statusFilter"></select>
+          <select id="watchFilter"></select>
+          <select id="sortFilter"></select>
+        </div>
+        <div class="chip-row" id="quickChips"></div>
+      </section>
+
+      <section class="panel list-panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Catalog</p>
+            <h3 id="catalogHeading">All titles</h3>
+          </div>
+          <div class="mini-actions">
+            <button id="resetFiltersBtn" class="ghost-btn">Reset</button>
+          </div>
+        </div>
+        <div id="catalogMeta" class="subtle"></div>
+        <div id="catalogGrid" class="catalog-grid"></div>
+        <div id="emptyState" class="empty-state hidden">
+          <h3>No titles yet</h3>
+          <p>Add your first film or series and the catalog comes alive.</p>
+        </div>
+      </section>
+
+      <section class="panel history-panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Recent history</p>
+            <h3>Last choices</h3>
+          </div>
+          <button id="clearHistoryBtn" class="ghost-btn">Clear</button>
+        </div>
+        <div id="historyList" class="history-list"></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="modalRoot"></div>
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
