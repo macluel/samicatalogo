@@ -1,13 +1,10 @@
 [build]
   publish = "."
-  functions = "functions"
+
+[functions]
+  directory = "netlify/functions"
 
 [[redirects]]
   from = "/api/omdb"
-  to = "/.netlify/functions/omdb"
-  status = 200
-
-[[redirects]]
-  from = "/api/omdb/*"
   to = "/.netlify/functions/omdb"
   status = 200
