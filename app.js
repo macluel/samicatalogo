@@ -696,7 +696,7 @@ function openAddModal() {
     status.textContent = 'Searching...';
     results.innerHTML = '';
     try {
-      const data = mode === 'id' ? await omdbRequest({ i: q, plot: 'full' }) : await omdbRequest({ s: q, type: 'movie', page: 1 });
+      const data = mode === 'id' ? await omdbRequest({ i: q, plot: 'full' }) : await omdbRequest({ s: q, page: 1 });
       renderSearchResults(data, results, status, q);
     } catch (err) {
       console.error(err);
